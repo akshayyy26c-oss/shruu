@@ -3,15 +3,19 @@ import "dotenv/config";
 import mysql from "mysql2/promise";
 
 const requiredVariables = [
-    "DB_HOST",
-    "DB_USER",
-    "DB_NAME"
+  "DB_HOST",
+  "DB_PORT",
+  "DB_USER",
+  "DB_PASSWORD",
+  "DB_NAME"
 ];
 
 for (const variable of requiredVariables) {
-    if (!process.env[variable]) {
-        throw new Error(`Missing environment variable: ${variable}`);
-    }
+  if (!process.env[variable]) {
+    throw new Error(
+      `Missing environment variable: ${variable}`
+    );
+  }
 }
 
 const sslConfig = process.env.DB_SSL === "true"
