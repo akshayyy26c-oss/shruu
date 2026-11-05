@@ -1,0 +1,143 @@
+
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #150f2d;
+}
+
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(236, 72, 153, 0.4);
+  color: white;
+}
+
+/* Floating cartoon images */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(4deg);
+  }
+}
+
+@keyframes floatDelayed {
+  0%, 100% {
+    transform: translateY(0) rotate(4deg);
+  }
+
+  50% {
+    transform: translateY(-22px) rotate(-4deg);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatDelayed 6s ease-in-out infinite;
+}
+
+/* Joke cards */
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.joke-reveal {
+  animation: reveal 0.8s ease both;
+}
+
+/* Question card */
+
+.question-card {
+  animation: reveal 0.7s ease both;
+}
+
+/* Q2 particle explosion */
+
+@keyframes explode {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.5) rotate(15deg);
+    filter: blur(2px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.5) rotate(45deg);
+    filter: blur(12px);
+  }
+}
+
+.particle-explode {
+  animation: explode 0.5s ease forwards;
+  pointer-events: none;
+}
+
+/* Success screen */
+
+@keyframes successBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+}
+
+.animate-success-bounce {
+  animation: successBounce 3s ease-in-out infinite;
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
