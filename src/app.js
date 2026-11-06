@@ -19,20 +19,17 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow server-to-server requests and configured frontend URLs
+        // Allow requests without an Origin header
         if (!origin || allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
 
-        return callback(new Error("Not allowed by CORS"));
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}));
+        console.error("CORS BLOCKED:", origin);
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
+        return callback(
+            new Error(`Not allowed by CORS: ${origin}`)
+        );
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
@@ -53,6 +50,7 @@ app.use((req, res, next) => {
     console.log("--------------------------------");
     console.log("TIME:", new Date().toISOString());
     console.log("REQUEST:", req.method, req.originalUrl);
+    console.log("ORIGIN:", req.headers.origin || "No origin");
     console.log("BODY:", req.body || {});
     console.log("--------------------------------");
 
