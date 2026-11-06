@@ -7,6 +7,7 @@ import JokeCards from "./components/JokeCards";
 import QuestionCard from "./components/QuestionCard";
 import SuccessScreen from "./components/SuccessScreen";
 
+// Default questions
 const defaultQuestions = [
   {
     question: "Do you want me to stop caring about you?",
@@ -25,9 +26,10 @@ const defaultQuestions = [
   },
 ];
 
-// Render backend URL
+// Backend URL
 const API_BASE = (
-  import.meta.env.VITE_API_URL || "https://shruu.onrender.com"
+  import.meta.env.VITE_API_URL ||
+  "https://shruu.onrender.com"
 ).replace(/\/+$/, "");
 
 function App() {
@@ -41,11 +43,16 @@ function App() {
 
   const savingRef = useRef(false);
 
+  // ==============================
   // FETCH QUESTIONS
+  // ==============================
+
   useEffect(() => {
     const fetchContents = async () => {
       try {
-        const response = await fetch(`${API_BASE}/api/content`);
+        const response = await fetch(
+          `${API_BASE}/api/content`
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
@@ -62,8 +69,12 @@ function App() {
             .filter((item) => item.question)
             .map((item) => ({
               question: item.question,
-              yes: item.yes || "That's the answer I was waiting for!",
-              no: item.no || "Friendship is too precious to give up!",
+              yes:
+                item.yes ||
+                "That's the answer I was waiting for!",
+              no:
+                item.no ||
+                "Friendship is too precious to give up!",
             }));
 
           if (backendQuestions.length > 0) {
@@ -71,7 +82,7 @@ function App() {
           }
         }
       } catch (error) {
-        console.error("Fetch questions error:", error);
+        console.error("FETCH QUESTIONS ERROR:", error);
       } finally {
         setLoading(false);
       }
@@ -80,13 +91,21 @@ function App() {
     fetchContents();
   }, []);
 
-  // SAVE ANSWER TO MYSQL
+  // ==============================
+  // SAVE RESPONSE TO MYSQL
+  // ==============================
+
   const saveResponse = async (question, answer) => {
     try {
-      console.log("Sending answer:", { question, answer });
-      console.log("API URL:", `${API_BASE}/api/responses`);
+      const url = `${API_BASE}/api/responses`;
 
-      const response = await fetch(`${API_BASE}/api/responses`, {
+      console.log("POST URL:", url);
+      console.log("SENDING DATA:", {
+        question,
+        answer,
+      });
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,15 +118,20 @@ function App() {
 
       const result = await response.json();
 
-      console.log("SAVE RESPONSE:", result);
+      console.log("HTTP STATUS:", response.status);
+      console.log("SERVER RESPONSE:", result);
 
       if (!response.ok || !result.success) {
-        throw new Error(result.message || "Unable to save answer");
+        throw new Error(
+          result.message || `HTTP ${response.status}`
+        );
       }
+
+      console.log("ANSWER SAVED SUCCESSFULLY");
 
       return true;
     } catch (error) {
-      console.error("SAVE ERROR:", error);
+      console.error("SAVE RESPONSE ERROR:", error);
 
       alert(
         `Unable to save answer: ${error.message}`
@@ -117,9 +141,16 @@ function App() {
     }
   };
 
+  // ==============================
   // HANDLE ANSWERS
+  // ==============================
+
   const handleAnswer = async (answer) => {
-    if (savingRef.current || success || !questions[current]) {
+    if (
+      savingRef.current ||
+      success ||
+      !questions[current]
+    ) {
       return;
     }
 
@@ -134,7 +165,9 @@ function App() {
         answer
       );
 
-      if (!saved) return;
+      if (!saved) {
+        return;
+      }
 
       setAnswers((previous) => ({
         ...previous,
@@ -152,9 +185,19 @@ function App() {
     }
   };
 
-  const handleYes = () => handleAnswer("yes");
+  // YES BUTTON
+  const handleYes = () => {
+    handleAnswer("yes");
+  };
 
-  const handleNext = () => handleAnswer("no");
+  // NO BUTTON
+  const handleNext = () => {
+    handleAnswer("no");
+  };
+
+  // ==============================
+  // UI
+  // ==============================
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#080611] text-white">
@@ -163,42 +206,66 @@ function App() {
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-8 md:px-10">
 
+        {/* HEADER */}
+
         <header className="flex items-center justify-between">
-          <a href="/" className="text-lg font-black tracking-tight">
-            FRIENDSHIP<span className="text-pink-400">.</span>
+
+          <a
+            href="/"
+            className="text-lg font-black tracking-tight"
+          >
+            FRIENDSHIP
+            <span className="text-pink-400">.</span>
           </a>
 
           <span className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs tracking-widest text-white/60">
             SPECIAL EDITION / 001
           </span>
+
         </header>
 
+        {/* LOADING */}
+
         {loading ? (
+
           <div className="flex flex-1 items-center justify-center">
             <p className="animate-pulse text-pink-300">
               Loading friendship questions...
             </p>
           </div>
+
         ) : !success ? (
+
           <>
+
             <Hero />
+
             <JokeCards />
 
             <section className="mx-auto mt-12 w-full max-w-2xl pb-12">
 
+              {/* PROGRESS */}
+
               <div className="mb-6 flex items-center justify-between">
+
                 <span className="text-xs tracking-[0.3em] text-white/40">
                   FRIENDSHIP TEST
                 </span>
 
                 <span className="text-xs text-pink-300">
-                  {String(current + 1).padStart(2, "0")} /{" "}
+                  {String(current + 1).padStart(2, "0")}
+                  {" / "}
                   {String(questions.length).padStart(2, "0")}
                 </span>
+
               </div>
 
+              {/* PROGRESS BAR */}
+
               <div className="mb-7 flex gap-2">
+
                 {questions.map((_, index) => (
+
                   <div
                     key={index}
                     className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
@@ -207,8 +274,12 @@ function App() {
                         : "bg-white/10"
                     }`}
                   />
+
                 ))}
+
               </div>
+
+              {/* QUESTION CARD */}
 
               <QuestionCard
                 key={current}
@@ -219,30 +290,46 @@ function App() {
                 saving={saving}
               />
 
+              {/* SAVING MESSAGE */}
+
               {saving && (
+
                 <p className="mt-5 text-center text-sm text-pink-300 animate-pulse">
                   Saving your answer...
                 </p>
+
               )}
 
+              {/* ANSWER MESSAGE */}
+
               {answers[current] && (
+
                 <p className="mt-5 text-center text-sm text-pink-200">
                   {answers[current] === "yes"
                     ? questions[current].yes
                     : questions[current].no}
                 </p>
+
               )}
+
             </section>
+
           </>
+
         ) : (
+
           <SuccessScreen />
+
         )}
+
+        {/* FOOTER */}
 
         <footer className="mt-auto border-t border-white/10 py-6 text-center text-xs tracking-widest text-white/30">
           MADE WITH CARE · FRIENDSHIP NEVER EXPIRES
         </footer>
 
       </div>
+
     </main>
   );
 }
