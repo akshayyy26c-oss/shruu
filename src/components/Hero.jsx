@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="relative mx-auto mt-20 w-full max-w-4xl text-center md:mt-28">
 
-      <div className="absolute -left-50 top-0 hidden -rotate-12 md:block">
+      <div className="absolute -left-4 top-0 hidden -rotate-12 md:block">
         <img
           src= {img1}
           alt="Angry cartoon bird"
@@ -14,7 +14,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="absolute -right-50 bottom-0 hidden rotate-12 md:block">
+      <div className="absolute -right-5 bottom-0 hidden rotate-12 md:block">
         <img
           src={img2}
           alt="Funny sheep character"
