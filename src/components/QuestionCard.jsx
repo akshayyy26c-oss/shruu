@@ -5,6 +5,7 @@ export default function QuestionCard({
   question,
   questionNumber,
   onYes,
+  saving = false,
 }) {
   const [noVisible, setNoVisible] = useState(true);
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
@@ -52,6 +53,7 @@ export default function QuestionCard({
       <div className="absolute -right-24 -top-24 h-56 w-56 rounded-full bg-purple-600/20 blur-[90px]" />
 
       <div className="relative z-10">
+
         <div className="mb-8 flex items-center justify-between">
           <span className="text-[10px] font-bold tracking-[0.3em] text-pink-300">
             QUESTION 0{questionNumber + 1}
@@ -74,16 +76,21 @@ export default function QuestionCard({
 
           <button
             onClick={onYes}
-            className="rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-12 py-4 text-sm font-bold shadow-lg shadow-pink-500/20 transition duration-300 hover:-translate-y-1 hover:shadow-pink-500/40 active:scale-95"
+            disabled={saving}
+            className="rounded-full bg-gradient-to-r from-pink-500 to-violet-600 px-12 py-4 text-sm font-bold shadow-lg shadow-pink-500/20 transition duration-300 hover:-translate-y-1 hover:shadow-pink-500/40 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            YES
+            {saving ? "SAVING..." : "YES"}
           </button>
 
           {noVisible && (
             <button
               onClick={handleNo}
-              onMouseEnter={questionNumber === 0 ? moveNoButton : undefined}
-              onTouchStart={questionNumber === 0 ? moveNoButton : undefined}
+              onMouseEnter={
+                questionNumber === 0 ? moveNoButton : undefined
+              }
+              onTouchStart={
+                questionNumber === 0 ? moveNoButton : undefined
+              }
               style={{
                 opacity,
                 transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
@@ -110,6 +117,7 @@ export default function QuestionCard({
             NO button power: {Math.round(opacity * 100)}%
           </p>
         )}
+
       </div>
     </div>
   );
