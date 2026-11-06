@@ -12,48 +12,31 @@ const app = express();
 // CORS CONFIGURATION
 // ==============================
 
+
 const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    "http://localhost:5173"
+  ...(process.env.FRONTEND_URLS || "").split(","),
+  process.env.FRONTEND_URL,
+  "http://localhost:5173"
 ]
-.filter(Boolean)
-.map(url => url.replace(/\/$/, ""));
+  .filter(Boolean)
+  .map(url => url.trim().replace(/\/$/, ""));
 
 const corsOptions = {
-    origin: (origin, callback) => {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ""))) {
+      return callback(null, true);
+    }
 
-        // Allow requests without browser origin
-        if (!origin) {
-            return callback(null, true);
-        }
-
-        const normalizedOrigin = origin.replace(/\/$/, "");
-
-        // Allow configured domains
-        if (allowedOrigins.includes(normalizedOrigin)) {
-            return callback(null, true);
-        }
-
-        console.error("CORS BLOCKED:", origin);
-
-        return callback(
-            new Error("CORS blocked: " + origin)
-        );
-    },
-
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-
-    allowedHeaders: [
-        "Content-Type",
-        "Authorization"
-    ],
-
-    credentials: true,
-
-    optionsSuccessStatus: 204
+    console.error("CORS BLOCKED:", origin);
+    return callback(new Error("CORS blocked: " + origin));
+  },
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
+
 
 // ==============================
 // BODY PARSERS
