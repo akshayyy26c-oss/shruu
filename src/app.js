@@ -15,25 +15,45 @@ const app = express();
 const allowedOrigins = [
     process.env.FRONTEND_URL,
     "http://localhost:5173"
-].filter(Boolean);
+]
+.filter(Boolean)
+.map(url => url.replace(/\/$/, ""));
 
-app.use(cors({
+const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests without an Origin header
-        if (!origin || allowedOrigins.includes(origin)) {
+
+        // Allow requests without browser origin
+        if (!origin) {
+            return callback(null, true);
+        }
+
+        const normalizedOrigin = origin.replace(/\/$/, "");
+
+        // Allow configured domains
+        if (allowedOrigins.includes(normalizedOrigin)) {
             return callback(null, true);
         }
 
         console.error("CORS BLOCKED:", origin);
 
         return callback(
-            new Error(`Not allowed by CORS: ${origin}`)
+            new Error("CORS blocked: " + origin)
         );
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true
-}));
+
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization"
+    ],
+
+    credentials: true,
+
+    optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 
 // ==============================
 // BODY PARSERS
@@ -58,7 +78,7 @@ app.use((req, res, next) => {
 });
 
 // ==============================
-// ROOT HEALTH CHECK
+// ROOT ROUTE
 // ==============================
 
 app.get("/", (req, res) => {
@@ -70,7 +90,7 @@ app.get("/", (req, res) => {
 });
 
 // ==============================
-// API HEALTH CHECK
+// HEALTH ROUTE
 // ==============================
 
 app.get("/health", (req, res) => {
@@ -100,7 +120,7 @@ app.use((req, res) => {
 });
 
 // ==============================
-// GLOBAL ERROR HANDLER
+// ERROR HANDLER
 // ==============================
 
 app.use(errorMiddleware);
