@@ -5,6 +5,7 @@ export default function QuestionCard({
   question,
   questionNumber,
   onYes,
+  onNext,
   saving = false,
 }) {
   const [noVisible, setNoVisible] = useState(true);
@@ -21,12 +22,17 @@ export default function QuestionCard({
   };
 
   const handleNo = () => {
+    if (saving) return;
+
+    // First question: NO button escapes
     if (questionNumber === 0) {
       moveNoButton();
       return;
     }
 
+    // Second question: Save NO and show animation
     if (questionNumber === 1) {
+      onNext();
       setParticles(true);
 
       setTimeout(() => {
@@ -36,12 +42,15 @@ export default function QuestionCard({
       return;
     }
 
+    // Third question: NO button fades
     if (questionNumber === 2) {
       const clicks = noClicks + 1;
+
       setNoClicks(clicks);
       setOpacity(Math.max(0, 1 - clicks * 0.3));
 
       if (clicks >= 5) {
+        onNext();
         setTimeout(() => setNoVisible(false), 300);
       }
     }
@@ -74,6 +83,7 @@ export default function QuestionCard({
 
         <div className="relative mt-12 flex min-h-16 flex-wrap items-center justify-center gap-5">
 
+          {/* YES BUTTON */}
           <button
             onClick={onYes}
             disabled={saving}
@@ -82,9 +92,11 @@ export default function QuestionCard({
             {saving ? "SAVING..." : "YES"}
           </button>
 
+          {/* NO BUTTON */}
           {noVisible && (
             <button
               onClick={handleNo}
+              disabled={saving}
               onMouseEnter={
                 questionNumber === 0 ? moveNoButton : undefined
               }
@@ -96,7 +108,7 @@ export default function QuestionCard({
                 transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
                 transition: "all 0.3s ease",
               }}
-              className={`relative rounded-full backdrop-blur-[500px] border border-white/30 bg-white/[0.06] px-12 py-4 text-sm font-bold text-white/75 transition-all hover:backdrop-blur-[20px] hover:bg-white/20 ${
+              className={`relative rounded-full border border-white/30 bg-white/[0.06] px-12 py-4 text-sm font-bold text-white/75 backdrop-blur-[500px] transition-all hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50 ${
                 particles ? "particle-explode" : ""
               }`}
             >
