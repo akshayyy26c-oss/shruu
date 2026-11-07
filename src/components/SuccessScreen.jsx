@@ -77,10 +77,10 @@ export default function SuccessScreen() {
           </p>
 
           <img
-            src={sticker}
-            alt="Friendship sticker"
-            className="mx-auto mt-6 w-48 animate-success-bounce"
-          />
+  src={sticker}
+  alt="Friendship sticker"
+  className="mx-auto mt-6 w-48 animate-success-bounce"
+/>
 
           <p className="mt-5 text-sm text-pink-300">
             A little surprise for you!
