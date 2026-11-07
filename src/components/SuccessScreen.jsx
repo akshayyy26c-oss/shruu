@@ -70,7 +70,7 @@ export default function SuccessScreen() {
           </button>
         </>
       ) : (
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl animate-success-bounce">
+        <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
 
           <p className="text-xl font-bold text-white">
             Hii Shruu 
@@ -79,7 +79,7 @@ export default function SuccessScreen() {
           <img
             src={sticker}
             alt="Friendship sticker"
-            className="mx-auto mt-6 w-48"
+            className="mx-auto mt-6 w-48 animate-success-bounce"
           />
 
           <p className="mt-5 text-sm text-pink-300">
