@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import img3 from "../assets/imgs/InCollage_20261105_001954975.png";
-import sticker from "../assets/imgs/InCollage_20261105_001954975.png";
+import sticker from "../assets/imgs/IMG_20261107_124319.png;
 
 export default function SuccessScreen() {
   const [showGreeting, setShowGreeting] = useState(false);
