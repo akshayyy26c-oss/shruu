@@ -72,14 +72,14 @@ export default function SuccessScreen() {
       ) : (
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
 
-          <p className="text-xl mb-2 font-bold text-white">
+          <p className="text-xl mb-3 font-bold text-white">
             Hii Shruti 
           </p>
 
         <img
           src= {sticker}
           alt="Angry cartoon bird"
-          className="w-30 animate-float ml-1 drop-shadow-2xl"
+          className="w-30 animate-float ml-3 drop-shadow-2xl"
         />
 
           <p className="mt-5 text-sm text-pink-300">
