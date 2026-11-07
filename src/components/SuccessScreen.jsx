@@ -73,7 +73,7 @@ export default function SuccessScreen() {
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
 
           <p className="text-xl font-bold text-white">
-            Hii Shruu 
+            Hii Shruti 
           </p>
 
         <img
