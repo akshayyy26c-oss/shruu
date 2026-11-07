@@ -70,9 +70,9 @@ export default function SuccessScreen() {
           </button>
         </>
       ) : (
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
+        <div className="relative mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
 
-          <p className="relative text-xl font-bold text-white">
+          <p className="text-xl font-bold text-white">
             Hii Shruu 
           </p>
 
