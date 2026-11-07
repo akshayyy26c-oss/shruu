@@ -77,7 +77,7 @@ export default function SuccessScreen() {
           </p>
 
         <img
-          src= {img1}
+          src= {sticker}
           alt="Angry cartoon bird"
           className="w-32 animate-float drop-shadow-2xl"
         />
