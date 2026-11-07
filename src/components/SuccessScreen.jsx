@@ -79,7 +79,7 @@ export default function SuccessScreen() {
           <img
   src={sticker}
   alt="Friendship sticker"
-  className="mx-auto mt-6 w-48 animate-success-bounce"
+  className="mx-auto mt-6 w-48 animate-[bounce_1s_ease-in-out_infinite"
 />
 
           <p className="mt-5 text-sm text-pink-300">
