@@ -72,15 +72,17 @@ export default function SuccessScreen() {
       ) : (
         <div className="mt-10 rounded-3xl border border-white/10 bg-white/[0.05] p-8 backdrop-blur-2xl ">
 
-          <p className="text-xl font-bold text-white">
+          <p className="relative text-xl font-bold text-white">
             Hii Shruu 
           </p>
 
-          <img
-  src={sticker}
-  alt="Friendship sticker"
-  className="mx-auto mt-6 w-48 animate-[bounce_1s_ease-in-out_infinite"
-/>
+         <div className="absolute -left-4 top-0 hidden -rotate-12 md:block">
+        <img
+          src= {img1}
+          alt="Angry cartoon bird"
+          className="w-32 animate-float drop-shadow-2xl"
+        />
+      </div>
 
           <p className="mt-5 text-sm text-pink-300">
             A little surprise for you!
