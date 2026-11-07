@@ -79,7 +79,7 @@ export default function SuccessScreen() {
         <img
           src= {sticker}
           alt="Angry cartoon bird"
-          className="w-32 animate-float drop-shadow-2xl"
+          className="w-30 animate-float drop-shadow-2xl"
         />
 
           <p className="mt-5 text-sm text-pink-300">
